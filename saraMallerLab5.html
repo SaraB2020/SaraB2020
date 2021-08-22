@@ -1,0 +1,222 @@
+<!--Homepage-->
+<!--Scripting the Document Object Model with JavaScript Body Mass Index 
+Calculator-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!--Script file -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--Page title-->
+    <title>CS22A Lab 4</title>
+	<style>
+        form{
+		background-color: #7e9481;
+		opacity: 80%;
+		padding: 2%;
+		}
+	    label, input, button{
+		font-size: 24px;}
+		label {
+		color: white;
+		}
+		#results, #comments, #results1, #comments1{
+		font-size: 18px;
+		background-color: white;
+		opacity: 80%;
+		max-width: 600px;
+		box-shadow: 5px 5px black;
+		padding: 1%;
+		margin: auto;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		display: none;
+		z-index: 1;
+		}
+
+		.error{
+		color: red;
+		}
+		body{
+			text-align: center;
+			margin: auto;
+			background-image: url('https://cdn.glitch.com/8514ee53-580a-4e03-9409-d9535c413256%2Fsalad.jpg?v=1595828599602');
+			background-attachment: fixed;
+			
+		}
+		h1{
+		background-color: white;
+		opacity: 80%;
+		padding: 2%;
+		z-index: 1;
+		}
+	</style>
+
+  </head>
+  <body>
+
+    <!--Title for page-->
+	<h2>Excelsior College *** Sara Maller *** Final Project</h2>
+    <h1> 
+	The Health Management Web Application
+	</h1>
+    <!--BMI Calculator---->
+	<form id="bmiInput">
+	<label for="feet" name="feet">Feet</label>
+	<input type=number id="feet" value=5 min=1 max=7>
+	<label for="inches" name="inches">Inches</label>
+	<input type=number id="inches" value=5 min=0 max=12>
+	<label for="weight" name="weight">Weight</label>
+	<input type=number id="weight" value=120 min=1 max=1000><br><br>
+	<button type=button onclick="calculateBMI()">Calculate BMI</button>
+	</form>
+	<!--Results Screen-->
+	<div id="results"></div>
+	<div id="comments"></div>
+	<p></p>
+	
+	<!--Optimal Water Intake Calculator---->
+	<form id="waterInput">
+	<label for="hours" name="hours">Hours of Exercise Daily</label>
+	<input type=number id="hours" value=0 min=0 max=24>
+	<label for="minutes" name="minutes">Minutes of Exercise Daily</label>
+	<input type=number id="minutes" value=30 min=0 max=60>
+	<label for="weight1" name="weight1">Weight</label>
+	<input type=number id="weight1" value=120 min=1 max=1000><br><br>
+	<button type=button onclick="calculateWater()">Calculate Optimal Water Intake</button>
+	</form>
+	<!--Optimal Water Intake Results Screen-->
+	<div id="results1"></div>
+	<div id="comments1"></div>
+	
+
+	
+    
+    <script>
+    "use strict";
+	var weight, heightInches, valid;
+	function processInput() {
+	    //obtain values and convert to integers
+	    weight = parseInt($("weight").value);
+		var feet = parseInt($("feet").value);
+		var inches = parseInt($("inches").value);
+		//Check if the inputs are valid and output error messages if not
+		//validate weight
+	    if (weight > 1000 || weight < 1 || isNaN(weight)){
+		    alert("Please enter a valid human weight");
+			valid = false;
+		}
+		//validate height
+		else if(feet < 1 || feet > 7 || inches > 12 || inches < 0 
+		|| isNaN(inches) || isNaN(feet)) {
+		    alert("Please enter a valid human height -> 1-7ft/1-12In." );
+			valid = false;
+		} 
+		//If all valid - set valid to true and convert height to inches
+		else {
+			valid = true;
+			heightInches = (feet * 12.0) + inches;
+		}
+	}
+	//calculate the BMI
+	function calculateBMI(){
+	    console.log("weight equals" + weight);
+	    processInput();
+		console.log("weight equals" + weight);
+	    if(valid){
+		console.log("weight equals" + weight);
+	    var BMI = (weight * 703) / (heightInches * heightInches);
+		console.log("BMI equals" + BMI);
+		BMI = BMI.toFixed(2);
+		$("results").innerHTML = "<h3>Your BMI is: </h3>" + BMI;
+		showComment(BMI);
+		}
+		else{
+		$("results").innerHTML = "<h3 class='error'>Error: You have "
+		+"one or more invalid entries</h3>";
+		}
+	}
+	
+	//Formatting and Comments
+	function showComment(BMI){
+		var comment;
+		if (BMI < 18.5) 
+		{comment = "You are underweight - eat more fats and oils";} 
+		else if(BMI >= 18.5 && BMI < 25)
+		{comment = "You are a healthy weight - no diets for you!";}
+		else if(BMI >= 25 && BMI < 30)
+		{comment = "You are overweight - time to take out those veggies!";}
+		else if(BMI >= 30)
+		{comment = "You are obese - Being obese can also increase your risk of"
+		+ " developing many potentially serious health conditions."
+		+ " <br> Contact a nutritionist immediately."}
+		$("results").style.display = "block";
+		$("comments").style.display = "block";
+		$("comments").innerHTML = "" + comment;
+	}
+	//Process input for water calculator
+	var weight1, heightMinutes, valid1;
+	function processInput1() {
+	    //obtain values and convert to integers
+	    weight1 = parseInt($("weight1").value);
+		var hours = parseInt($("hours").value);
+		var minutes = parseInt($("minutes").value);
+		//Check if the inputs are valid and output error messages if not
+		//validate weight
+	    if (weight1 > 1000 || weight1 < 1 || isNaN(weight1)){
+		    alert("Please enter a valid human weight");
+			valid1 = false;
+		}
+		//validate time
+		else if(hours < 0 || hours > 24 || minutes > 60 || minutes < 0 
+		|| isNaN(hours) || isNaN(minutes)) {
+		    alert("Please enter 0-60 minutes and 0-24 hours" );
+			valid1 = false;
+		} 
+		//If all valid - set valid to true and convert height to inches
+		else {
+			valid1 = true;
+			heightMinutes = (hours * 60) + minutes;
+			console.log(heightMinutes);
+		}
+	}
+	//calculate health Water Intake
+	function calculateWater(){
+	    processInput1();
+	    if(valid1){
+	    var amtWater = (weight1 * (2/3)) + (12 * (heightMinutes/30));
+		var amtWater = amtWater/8;
+		console.log(amtWater);
+		amtWater = amtWater.toFixed(2);
+		showComment1(amtWater);
+		$("results1").innerHTML = "<h3>Your optimal daily water intake is: </h3>" + amtWater +" cups of water.";
+		}
+		else{
+		$("results1").innerHTML = "<h3 class='error'>Error: You have "
+		+"one or more invalid entries</h3>";
+		}
+	}
+		//Formatting and Comments
+	function showComment1(amtWater){
+		var comment1;
+        comment1 = "Getting enough water every day is important for your health. Drinking water can prevent dehydration, a condition that can cause unclear thinking, result in mood change, cause your body to overheat, and lead to constipation and kidney stones.";
+		$("results1").style.display = "block";
+		$("comments1").style.display = "block";
+		$("comments1").innerHTML = "" + comment1;
+	}
+	
+	//Get Element by Id
+	function $(id){
+	var elementId = document.getElementById(id);
+	return elementId;
+	}
+
+    </script>
+  </body>
+</html>
+
+

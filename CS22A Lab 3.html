@@ -1,0 +1,78 @@
+<!--Homepage-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="./style.css" />
+    <!--Page title-->
+    <title>CS22A Lab 3</title>
+	<style>
+		#myBtn{
+			height:60px;
+			background-color:#c0daed;
+			border-radius:30px;
+			font:bold;
+			font-size:24px;
+			padding: 1%;
+			margin-bottom: 10px;
+		}
+		body{
+			text-align: center;
+			margin: auto;
+			padding: 15%;
+		}
+	</style>
+
+  </head>
+
+  <body>
+    <!--Title for page-->
+    <h1> Lab3: Objects, Functions, Handling Events</h1>
+
+    <!--Objects to display data-->
+	<button id="myBtn" onclick="calculatePay('yourPaycheck')">
+	Calculate Overtime
+	</button>
+	<br>
+	<p id="rate">Hourly Rate is: $</p>
+	<p id="hours">Number of hours worked is: $</p>
+	<p id="yourPaycheck">Your paycheck is: $</p>
+
+    <script>
+    "use strict";
+	
+    //Enter the payrate and and number of hours worked by prompt
+    var rate = prompt("Please enter the employee’s pay rate per hour");
+	var rate = parseFloat(rate);
+	$("rate").innerHTML += " " + rate;
+    var hours = prompt("Please enter the number of total hours the employee worked this week.");
+	$("hours").innerHTML += " " + hours;
+	var hours = parseFloat(hours);
+	
+	//Function to calculate the overtime pay according to conditions
+	function calculatePay(targetId){
+		var regularPay = rate * hours;
+		if(hours > 40 && rate < 20){
+			$(targetId).innerHTML += (regularPay * 1.5).toFixed(2);
+		}
+		else{
+			$(targetId).innerHTML += regularPay.toFixed(2);
+		}
+	}
+	
+	//Get Element by Id
+	function $(id){
+	var elementId = document.getElementById(id);
+	return elementId;
+	}
+
+    </script>
+  </body>
+</html>
+
+
